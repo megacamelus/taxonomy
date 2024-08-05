@@ -1,0 +1,82 @@
+task_description: 'Answer questions about Apache Camel features'
+created_by: orpiske
+domain: open source software
+document:
+  repo: https://gitlab.cee.redhat.com/opiske/camel-upstream-info
+  commit: e83af34070dcb575c96329ae1d5a9620ff8b4899
+  patterns:
+    - camel-documentation/camel-kafka.md
+seed_examples:
+    - question: ' What additional properties can be set for Kafka consumer or producer using the "additionalProperties" option in Apache Camel Kafka component, and how should these properties be named? Also, where could you find an example of using the "additionalProperties" option to configure a transactional ID and schema registry URL for Avro messages?'
+      answer: |
+        The "additionalProperties" option in Apache Camel's Kafka component allows you to set additional properties for either the Kafka consumer or producer, which can't be set directly on the Camel configurations. These properties are prefixed with "additionalProperties.", such as:
+
+        - `additionalProperties.transactional.id` for setting a transaction ID (e.g., 12345)
+        - `additionalProperties.schema.registry.url` for setting a schema registry URL (e.g., http://localhost:8811/avro).
+
+        For instance, here's how you might use the "additionalProperties" option to configure transactional ID and schema registry URL for Avro messages:
+
+        ```xml
+        <kafka:consumer ...>
+            <properties>
+                <!-- Other properties -->
+                <entry key="additionalProperties.transactional.id">12345</entry>
+                <entry key="additionalProperties.schema.registry.url">http://localhost:8811/avro</entry>
+            </properties>
+        </kafka:consumer>
+        ```
+        Or in producer's case:
+
+        ```xml
+        <kafka:producer ...>
+            <properties>
+                <!-- Other properties -->
+                <entry key="additionalProperties.transactional.id">12345</entry>
+                <entry key="additionalProperties.schema.registry.url">http://localhost:8811/avro</entry>
+            </properties>
+        </kafka:producer>
+        ```
+    - question: 'What is the format for specifying multiple URLs of Apache Kafka brokers using the "brokers" option within an Apache Camel configuration, and how can this option be named alternatively in Kafka documentation?'
+      answer: ' The format for specifying multiple URLs (or addresses) of Apache Kafka brokers within an Apache Camel configuration is by using a comma-separated list of host:port pairs in the "brokers" option, such as ''host1:port1,host2:port2''. This could be a subset of actual brokers or a Virtual IP (VIP) pointing to a subset of brokers. In the Kafka documentation, this option is known alternatively as bootstrap.servers.'
+    - question: ' What purpose does the Apache Camel Kafka component''s "clientId" option serve, and is it required when using this component? (Answer: The client id option in the Apache Camel Kafka component serves to help trace calls by providing a user-specified string. It is logically intended to identify the application making the request, and its use is not mandatory, as it has a default value of null.)'
+      answer: ' The client id option in the Apache Camel Kafka component is used for tracing calls by providing a user-specified string. It serves to logically identify the application making the request, although its usage is optional, with a default value of null.'
+    - question: ' What are some examples of configurations that can be pre-set for the Apache Camel Kafka component when using it within an endpoint, and is it mandatory to provide such configurations? (Based on the provided information)'
+      answer: ' When working with the Apache Camel Kafka component within an endpoint, you have the option to pre-configure certain common options that will be reused across multiple instances of the component. This can help streamline setup and minimize repetitive configuration. Examples of configurations that can be preset include, but are not limited to: bootstrap servers (the initial set of Kafka brokers to contact), client ID (unique identifier for each consumer group), and serializer/deserializer options for handling data types. However, it''s not mandatory to provide such configurations; if they are left as null or not specified during the endpoint setup, default values will be used or Camel may automatically determine some settings based on context.'
+    - question: ' What is the purpose and usage of the "headerFilterStrategy" option within the Apache Camel Kafka component, if it is chosen to utilize a custom HeaderFilterStrategy for filtering headers in and out of Camel messages, and whether there is a default value provided for this option?'
+      answer: ' The "headerFilterStrategy" option within the Apache Camel Kafka component is designed to enable users to implement a custom HeaderFilterStrategy, which allows filtering of headers in both incoming and outgoing Camel messages. This can be particularly useful when you need to handle specific header fields or manipulate them according to your needs during message exchange. It''s important to note that there is no default value provided for this option; users must provide their own custom implementation if they choose to utilize this feature.'
+    - question: ' What is the default waiting time in milliseconds for Apache Camel''s Kafka component when reconnecting to a broker that repeatedly fails to connect, and how can this waiting time be modified if necessary? Additionally, could you explain how this setting influences the retry mechanism with the Kafka component in Camel?'
+      answer: ' The default waiting time in milliseconds for Apache Camel''s Kafka component when reconnecting to a broker that repeatedly fails to connect is 1000 milliseconds (1 second). If you need to modify this waiting time, you can adjust the "reconnectBackoffMaxMs" option. This setting influences the retry mechanism by increasing the waiting time exponentially for each consecutive connection failure, up to the specified maximum limit. Additionally, a random jitter of 20% is added to avoid potential connection storms and ensure a stable retry mechanism with Kafka component in Camel.'
+    - question: ' What is the purpose and default value of the Apache Camel Kafka component option "retryBackoffMaxMs", and how does it affect the backoff strategy when retrying failed requests to the Kafka broker? Also, can you explain how this option interacts with other options like "retry.backoff.ms" in terms of which one will be used for the backoff time calculation?'
+      answer: |
+        The Apache Camel Kafka component option "retryBackoffMaxMs" serves as the maximum wait duration, in milliseconds, when retrying a repeated failed request to the Kafka broker. If set, the exponential backoff per client will progressively increase for each failed attempt, with the upper limit being this maximum value. To prevent synchronization across all clients upon retry, a random jitter factor of 0.2 is applied to the backoff time calculation, causing the backoff to fall within a range between 20% below and 20% above the computed value.
+
+        When the component encounters a situation where "retryBackoffMaxMs" is defined as being greater than "retry.backoff.ms", it will utilize "retryBackoffMaxMs" for the constant backoff calculation, discarding any exponential increase provided by "retry.backoff.ms". Essentially, "retryBackoffMaxMs" governs the overall maximum duration to wait before retrying and its relation with other options like "retry.backoff.ms", making "retryBackoffMaxMs" a crucial aspect of the backoff strategy when dealing with failed Kafka broker requests. The default value for "retryBackoffMaxMs" is 1000 milliseconds, as indicated by the defaultValue property in the configuration provided.
+    - question: ' How can I configure the Apache Camel Kafka component''s retryBackoffMs option to specify a custom initial delay (in milliseconds) before attempting to retry a failed request to a specific topic partition, while also knowing that the value will exponentially increase for each failed attempt up to a maximum specified limit, and understanding that it is not mandatory to provide a value for this option if the default will suffice?'
+      answer: |
+        To configure the Apache Camel Kafka component's retryBackoffMs option, you can specify a custom initial delay (in milliseconds) before attempting to retry a failed request to a specific topic partition by setting the value of this option in your configuration. The default value is 100ms, but if you want a different initial backoff value, you can provide it here.
+
+        It's important to note that, when a request fails, this value will exponentially increase for each failed attempt, up to the retry.backoff.max.ms value which might be a different configuration parameter depending on your setup.
+
+        Lastly, remember that it's not mandatory to provide a value for retryBackoffMs if you're comfortable with using the default value.
+    - question: ' What is the default value for the shutdown timeout option in the Apache Camel Kafka component, and how long should this timeout be set if it''s not required to ensure graceful shutdown of consumer or producer threads? (This option allows you to set a timeout in milliseconds to wait for shutdown.)'
+      answer: ' The default value for the shutdown timeout option in the Apache Camel Kafka component is 30000 milliseconds (or 30 seconds). If it''s not required, you can set this timeout based on your specific use case and resource availability. A longer timeout allows more time for graceful shutdown of consumer or producer threads, ensuring a smoother overall system behavior. However, a prolonged timeout may impact the performance of your application if it is not needed. It''s always essential to strike a balance between resources, time, and smooth operation of the application when configuring such settings.'
+    - question: ' What is the purpose and default value of the Apache Camel Kafka component option called "allowManualCommit", and can it be set as a required configuration?'
+      answer: ' The Apache Camel Kafka component option "allowManualCommit" determines if manual offset commits are allowed via KafkaManualCommit within the Exchange message header of your application. If enabled, you can access this functionality through an instance of KafkaManualCommit and use the provided API for manual offset commits via the Kafka consumer. The default value for this option is `false`. While it can be set, its usage is optional rather than required in the configuration settings for consumers.'
+    - question: ' What is the default behavior and optional nature, as well as a brief explanation of the "autoCommitEnable" option for the Apache Camel Kafka component when consuming messages from a Kafka topic, and under what circumstances would setting it to false potentially be advantageous?'
+      answer: |
+        In the context of Apache Camel Kafka component, the default behavior for the "autoCommitEnable" option is true. This option controls whether the consumer periodically commits offsets for messages fetched to ZooKeeper. If set to true, when the process succeeds, it will commit the current offset as a checkpoint so that when the process fails and restarts, the new consumer will start from where the previous one left off.
+
+        Setting "autoCommitEnable" to false makes the commitment of the offset manual. In situations where you want more control over when data is processed or if there's a need for custom handling of message failures, setting it to false can be beneficial. By doing so, you explicitly commit the offset at the point that suits your specific use case, offering finer-grained control over data processing. However, be aware that without automatic commitment, there's an increased risk of losing messages in case of consumer failure since no offset has been committed yet.
+    - question: ' What is the default interval time, in milliseconds, at which the Apache Camel Kafka component automatically commits the consumer offsets to Zookeeper (assuming this option is not explicitly set), and under what group of configurations can it be found when using the Camel DSL?'
+      answer: ' The default interval time for the Apache Camel Kafka component to automatically commit the consumer offsets to Zookeeper is 5000 milliseconds (or 5 seconds) if this option isn''t explicitly set. You can find it under the "consumer" group of configurations when using the Camel DSL.'
+    - question: ' In the context of Apache Camel''s Kafka component, when there is no initial offset in ZooKeeper or if an offset provided is out of range for a Kafka topic, what are the available behaviors (options) for autoOffsetReset, and what is the default value?'
+      answer: ' In the context of Apache Camel''s Kafka component, when there is no initial offset in ZooKeeper or if an offset provided is out of range for a Kafka topic, three behaviors (options) for autoOffsetReset are available: earliest - automatically reset the offset to the earliest offset; latest - automatically reset the offset to the latest offset; fail - throw exception to the consumer. The default value for this option is ''latest''.'
+    - question: ' What is the default value and is it required for using the batching option in the Apache Camel Kafka component when consuming data from a Kafka topic?'
+      answer: ' The default value for using batching in the Apache Camel Kafka component when consuming data from a Kafka topic is false, meaning streaming is used by default. It''s not required to set the value explicitly as it''s an optional configuration option.'
+    - question: ' What is the recommended approach when using the "breakOnFirstError" option in the Apache Camel Kafka component if a message repeatedly fails processing and there''s a risk of endless re-processing, considering the behavior differences between NoopCommitManager, SyncCommitManager, and AsyncCommitManager?'
+      answer: |
+        The recommended approach when using the "breakOnFirstError" option in the Apache Camel Kafka component with a message that repeatedly fails processing and poses a risk of endless re-processing is to handle the error effectively.
+
+        In case of using NoopCommitManager, since the consumer does not commit the offset, it continues to process subsequent messages. However, if the message consistently fails, it may lead to an infinite loop. To prevent this, you should utilize KafkaManualCommit or Camel's error handler to decide how to handle the faulty message.
+
+        When using SyncCommitManager or AsyncCommitManager, the consumer will seek back to the offset of the failing message and re-attempt processing it. This might result in endless processing if the message is inherently faulty (like a poison message). In such cases, it's essential to employ measures like Camel's error handler for dealing with problematic messages more adequately.
