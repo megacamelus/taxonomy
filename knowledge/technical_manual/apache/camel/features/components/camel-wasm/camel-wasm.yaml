@@ -1,0 +1,21 @@
+task_description: 'Answer questions about Apache Camel features'
+created_by: orpiske
+domain: open source software
+document:
+  repo: https://gitlab.cee.redhat.com/opiske/camel-upstream-info
+  commit: e83af34070dcb575c96329ae1d5a9620ff8b4899
+  patterns:
+    - camel-documentation/camel-wasm.md
+seed_examples:
+    - question: 'What is the purpose and default value of the "lazyStartProducer" option in the Apache Camel wasm component, and under what conditions might it be beneficial to set this option to true? Additionally, can you explain the potential impact on processing time when this option is enabled?'
+      answer: |
+       'The "lazyStartProducer" option in the Apache Camel wasm component allows control over whether the producer should start lazily (on the first message) instead of at startup. This setting can be beneficial in scenarios where the initial starting of a producer may fail, potentially causing the entire route to fail during startup. By deferring the startup until the first message is processed, any failure can be handled through Camel''s routing error handlers. However, do keep in mind that when this option is enabled, the creation and starting of the producer upon the first message may take some time and potentially extend the overall processing time for the processing. The default value of "lazyStartProducer" is false.'
+    - question: '"In what circumstances or conditions would you disable the ''autowiredEnabled'' option in the Apache Camel ''wasm'' component, and how could it potentially impact its functionality when compared to keeping it enabled?"'
+      answer: |
+       'When considering disabling the ''autowiredEnabled'' option in the Apache Camel ''wasm'' component, it should be done under specific circumstances where manual configuration is preferred over automatic configuration. For instance, when you have a unique requirement or use case that needs more explicit control over the instantiation and configuration of JDBC data sources, JMS connection factories, AWS Clients, or similar components.              Leaving ''autowiredEnabled'' enabled typically results in smoother integration, as it automatically finds instances in the registry and configures them according to their autowired options. However, disabling this option allows for a more fine-grained control over component configurations, albeit with the potential trade-off of increased manual configuration complexity. In some cases, this level of control could be essential to achieving your intended functionality. It''s important to weigh the pros and cons based on the specific context of your project.'
+    - question: 'What should be the string value for the "module" option when using the Apache Camel "wasm" component as a producer, if it''s mandatory and has no default value?'
+      answer: |
+       'To use the Apache Camel "wasm" component as a producer, you must provide a string value for the "module" option as it is mandatory without a default value. This string should point to the WebAssembly module resource that contains the producer function.'
+    - question: '"Given the Apache Camel component ''wasm'', what does the ''lazyStartProducer'' option do, what are its default value and possible groups, and under what circumstances would it be beneficial to enable this option?"'
+      answer: |
+       'The ''lazyStartProducer'' option for the Apache Camel ''wasm'' component determines whether the producer should be started lazily (on the first message). This is beneficial when the production may otherwise fail during startup, causing the route to fail as well. By deferring the startup until the first message is processed, you can manage startup failures using Camel''s routing error handlers.              It''s important to note that starting a producer lazily can prolong the overall processing time, as creating and starting it may require additional time when the first message is being processed. However, this allows your CamelContext and routes to initialize even if some producers encounter startup issues.              The default value of ''lazyStartProducer'' is false. It belongs to the "producer (advanced)" groups in Apache Camel.'

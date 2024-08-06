@@ -1,0 +1,33 @@
+task_description: 'Answer questions about Apache Camel features'
+created_by: orpiske
+domain: open source software
+document:
+  repo: https://gitlab.cee.redhat.com/opiske/camel-upstream-info
+  commit: e83af34070dcb575c96329ae1d5a9620ff8b4899
+  patterns:
+    - camel-documentation/camel-bonita.md
+seed_examples:
+    - question: 'Here''s a question that can be answered using the provided information about the Apache Camel Bonita component option "lazyStartProducer":              In relation to using the Apache Camel Bonita component, what is the purpose of setting the ''lazyStartProducer'' option to true and what potential implications could this have on the overall processing time?'
+      answer: |
+       'Setting the ''lazyStartProducer'' option to true in the Apache Camel Bonita component allows for a delayed start of the associated producer. This can be beneficial when initializing the producer might cause issues during route startup, thereby preventing the entire route from launching successfully.              However, it is important to note that enabling this feature means that the producer will not be started until the first message is processed. This may result in a slightly longer total processing time since creating and starting the producer upon message arrival might take some additional time.'
+    - question: 'How can you configure whether autowiring is enabled when using the Apache Camel Bonita component, and what is its default value?'
+      answer: |
+       'To configure whether autowiring is enabled when utilizing the Apache Camel Bonita component, you can adjust the "autowiredEnabled" option. This setting determines if autowiring is enabled for automatic configuration of options like JDBC data sources, JMS connection factories, AWS clients, etc. The default value of this boolean parameter is true, meaning that autowiring is enabled by default in the component''s advanced settings. However, you can override it to false if you wish to disable autowiring.'
+    - question: 'What is the default hostname for the Apache Camel Bonita component''s option "hostname" and is it required when setting up a producer? (The provided information suggests that it defaults to localhost and is not required.)'
+      answer: |
+       'The default hostname for the Apache Camel Bonita component''s "hostname" option is localhost, and this configuration parameter is optional when setting up a producer.'
+    - question: 'What is the default value for the port option in the Apache Camel Bonita producer component, if it''s not explicitly specified?'
+      answer: |
+       'The default value for the port option in the Apache Camel Bonita producer component, when not explicitly specified, is 8080.'
+    - question: 'What is the purpose and default value of the "processName" option in the Apache Camel Bonita component when configuring a producer, and is it mandatory to provide a value for this option?'
+      answer: |
+       'The "processName" option in the Apache Camel Bonita component, when configuring a producer, serves as the name of the process involved in the operation. Its default value is null, meaning that if no specific value is provided, it will not be assigned a default value. This option is optional, so you do not need to provide a value for it if you don''t wish to assign a specific process name during the operation.'
+    - question: 'Here is a question that can be answered based on the provided information about the Apache Camel component Bonita''s `lazyStartProducer` option:              When working with the Bonita component in an Apache Camel project, what is the purpose of setting the `lazyStartProducer` option to true and how might this affect the overall processing time for messages?'
+      answer: |
+       'Setting the `lazyStartProducer` option to true in a Bonita component within an Apache Camel project allows for the producer to be initiated only upon receiving the first message. This can help in situations where the initializing of the producer might otherwise cause failure during route startup, thereby preventing the entire route from being initialized.              However, it''s important to note that when the first message is processed and the production creation and starting process are deferred until then, this may slightly prolong the total processing time for subsequent messages, as some additional time is required to create and start the producer upon the arrival of the initial message.'
+    - question: 'What is the purpose and default value (if any) of the "password" option in the Apache Camel Bonita component, and is it required or optional?'
+      answer: |
+       'The "password" option in the Apache Camel Bonita component is used for authentication to the Bonita engine. It provides a string password for this purpose. By default, there is no preset value for this option; it must be set according to your specific Bonita engine''s configuration. Lastly, the usage of the "password" option is optional, not mandatory.'
+    - question: 'What is the optional string parameter used for authentication in the Apache Camel component Bonita, and what is its default value, data type, group association, and requirement status?'
+      answer: |
+       'The optional string parameter used for authentication in the Apache Camel component Bonita is named "username". Its default value is null. This parameter defines the username to authenticate to the Bonita engine. The data type is a string. The group associated with this parameter is "security". It''s not required, as indicated by its status of false.'
