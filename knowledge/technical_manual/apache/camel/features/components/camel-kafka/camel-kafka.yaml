@@ -2,7 +2,7 @@ task_description: 'Answer questions about Apache Camel features'
 created_by: orpiske
 domain: open source software
 document:
-  repo: https://gitlab.cee.redhat.com/opiske/camel-upstream-info
+  repo: https://github.com/megacamelus/camel-upstream-info
   commit: e83af34070dcb575c96329ae1d5a9620ff8b4899
   patterns:
     - camel-documentation/camel-kafka.md
