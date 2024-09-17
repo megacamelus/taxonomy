@@ -1,0 +1,30 @@
+task_description: 'Answer questions about Apache Camel features'
+created_by: orpiske
+domain: open source software
+document:
+  repo: https://github.com/megacamelus/camel-upstream-info
+  commit: 3595c4e85827d983f68cdcd4c4387f277e11f3cf
+  patterns:
+    - camel-documentation/camel-tika.md
+seed_examples:
+    - question: 'How does enabling the "lazyStartProducer" option in the Apache Camel Tika component affect the behavior of a Camel route during startup, and what are its potential impacts on the overall processing time?'
+      answer: |
+       'Enabling the "lazyStartProducer" option in the Apache Camel Tika component allows the producer to be started only when the first message is processed instead of during the initial startup of the route. This can help prevent the route from failing due to issues with starting the producer, as such problems can be handled by Camel''s routing error handlers during message processing. However, it''s important to note that creating and starting the producer for the first time may take a bit more time compared to an immediate startup, which could prolong the overall processing time of the route slightly.'
+    - question: 'How does enabling or disabling the "autowiredEnabled" option in the Apache Camel Tika component affect the automatic configuration of options like data sources, JMS connection factories, AWS clients, etc., and what is its default value?'
+      answer: |
+       'Enabling the "autowiredEnabled" option in the Apache Camel TIKA component allows for automatic autowiring of certain options such as data sources, JMS connection factories, AWS clients, etc. When this option is set to true, Camel will look up in the registry for a single instance of matching type and configure it on the component. This makes it easier to set up these resources without explicit configuration. The default value for "autowiredEnabled" is true, meaning that autowiring is enabled by default in your TIKA component. If you want to disable autowiring, you can set this option to false in your configuration.'
+    - question: 'What is the default value and purpose of the "tikaParseOutputEncoding" option in the Apache Camel component called Tika when it is not required?'
+      answer: |
+       'The "tikaParseOutputEncoding" option in the Apache Camel component named Tika has a default value of `null`. This option denotes the encoding used to return the parsed text from Tika. If this option is not specified, Tika will determine the output encoding automatically based on the file or data provided for parsing.'
+    - question: 'What are the available output formats for the Tika Parse Output Format option in the Apache Camel component "tika", and what is the default value of this option?'
+      answer: |
+       'The Tika Parse Output Format option in the Apache Camel component "tika" offers several output formats: xml (default), html, text, and textMain (which uses the boilerpipe library to extract the main content from a web page). The default value for this option is XML.'
+    - question: 'How does enabling the "lazyStartProducer" option in the Apache Camel Tika component affect the starting behavior of the producer, and why might it be useful to enable this option in certain situations?'
+      answer: |
+       'Enabling the "lazyStartProducer" option in the Apache Camel Tika component allows the producer to start lazily (on the first message). This means that the producer will only begin when a message is processed, rather than during the startup of the route or CamelContext.              This can be useful in situations where starting the producer might cause the route to fail during startup, due to potential resource constraints or other issues. By deferring the startup until actual message processing, you can handle any related failures using Camel''s routing error handlers. However, do note that when the first message is processed, creating and starting the producer may take some additional time, which could prolong the total processing time of the route. This option falls under the "producer (advanced)" group in Apache Camel.'
+    - question: 'What is the purpose and default value of the "tikaConfig" option in the Apache Camel''s Tika component, and is it required to be set?'
+      answer: |
+       'The "tikaConfig" option in Apache Camel''s Tika component serves as a configuration object for the Tika library. It allows you to customize how Tika processes your documents. By default, it does not have a value, meaning that if you don''t provide a specific configuration, Tika will use its default settings. As for the requirement, setting "tikaConfig" is optional and falls under the advanced group of options, so you can use it only when you need to adjust Tika''s behavior beyond its default settings.'
+    - question: 'What is the purpose and default value of the "tikaConfigUri" option in the Apache Camel Tika component, and is it considered a required or optional configuration?'
+      answer: |
+       'The "tikaConfigUri" option in the Apache Camel Tika component is an advanced configuration setting that specifies the URL for the Tika configuration file. Its default value is null, meaning no default configuration URL is set. This option is considered optional, as it''s not required to provide a Tika configuration URL for basic usage of the Tika component.'
