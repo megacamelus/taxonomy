@@ -1,0 +1,28 @@
+task_description: 'Answer questions about Apache Camel releases'
+created_by: orpiske
+domain: open source software
+document:
+  repo: https://github.com/megacamelus/camel-upstream-info
+  commit: 43e634731e6606d014d06fa3d9fad530f638a5a3
+  patterns:
+    - camel-versions.md
+seed_examples:
+- question: What is the latest version of Apache Camel?
+  answer: |
+    The latest version of Apache Camel 4 is 4.8.0, released on September 15th, 2024.
+- question: When was Camel 4.4.0 released?
+  answer: |
+    Camel 4.4.0 was released on 2024-02-12.
+- question: When was Camel 3.21.4 released?
+  answer: |
+    Camel 3.21.4 was released on 2024-01-24.
+- question: When was Camel 2.24.0 released?
+  answer: |
+    Camel 2.24.0 was released on 2019-05-06.
+- question: When was Camel version 1.6.4 released?
+  answer: |
+    Camel 1.6.4 was released on 2010-12-12.
+- question: How many versions of Apache Camel were released in 2010?
+  answer: |
+    In 2010, 4 (four) versions of Camel were released: 2.2.0, 2.3.0, 2.4.0 and 2.5.0.
+
